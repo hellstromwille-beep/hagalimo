@@ -1,0 +1,1400 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LimoKungen.se | HagaLimo — Boka limousine i hela Sverige</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* ═══════════════════════════════════════════════════════════════════════
+   NOGO Media — Colors & Type
+   Derived from globals.css + Tailwind usage in nogo-web (main).
+   Palette: pure monochrome. Black, white, and the Tailwind gray ramp.
+   Accent = the literal brand mark (not a color). Signals = minimal semantic chips.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+
+
+:root {
+  /* ─── Core neutrals ───────────────────────────────────────────── */
+  --color-black:   #000000;
+  --color-white:   #ffffff;
+
+  /* Tailwind gray ramp — used across site, hero dashboard, demo UI */
+  --gray-50:  #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;   /* scrollbar thumb */
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --gray-950: #030712;   /* dark sections: footer, security, CTA panel */
+
+  /* ─── Surfaces (semantic) ─────────────────────────────────────── */
+  --bg-page:         var(--color-white);
+  --bg-subtle:       var(--gray-50);   /* alt. section backgrounds */
+  --bg-inverse:      var(--gray-950);  /* Security section, Footer, CTA panel */
+  --bg-dashboard:    var(--gray-950);  /* hero dashboard mock */
+  --bg-card:         var(--color-white);
+  --bg-card-subtle:  var(--gray-50);   /* feature cards */
+
+  /* ─── Foreground (semantic) ───────────────────────────────────── */
+  --fg-primary:   #111111;            /* body text, from --foreground */
+  --fg-secondary: var(--gray-600);    /* supporting copy */
+  --fg-muted:     var(--gray-500);    /* large paragraphs under H2 */
+  --fg-subtle:    var(--gray-400);    /* eyebrows, metadata */
+  --fg-faint:     var(--gray-300);    /* placeholders, dividers */
+  --fg-on-dark:   var(--color-white);
+  --fg-on-dark-muted: var(--gray-400);
+
+  /* ─── Borders ─────────────────────────────────────────────────── */
+  --border-hair:    var(--gray-100);  /* nav underline */
+  --border-default: var(--gray-200);  /* cards, inputs, buttons */
+  --border-strong:  var(--gray-300);  /* hover state */
+  --border-dark:    var(--gray-800);  /* dashboard + dark sections */
+  --border-dark-strong: var(--gray-700);
+
+  /* ─── Signal colors (used ONLY for status dots & state chips) ── */
+  --signal-live:    #22c55e;          /* green-500 "Live" pulse, Tilldelad */
+  --signal-info:    #3b82f6;          /* blue-500 På väg, Upphämtning */
+  --signal-warn:    #f59e0b;          /* amber-500 Väntar, avvikelse */
+  --signal-done:    #6b7280;          /* gray-500 Levererad */
+  --signal-drop:    #10b981;          /* emerald-500 Avlämning pin */
+
+  /* Priority chips from DemoOrderTable (soft fills) */
+  --chip-normal-bg:   var(--gray-100);   --chip-normal-fg:   var(--gray-700);
+  --chip-dhl-bg:      #fee2e2;           --chip-dhl-fg:      #b91c1c;   /* red-100/700 */
+  --chip-husq-bg:     #ffedd5;           --chip-husq-fg:     #c2410c;   /* orange-100/700 */
+  --chip-express-bg:  #f3e8ff;           --chip-express-fg:  #7e22ce;   /* purple-100/700 */
+  --chip-block-bg:    #faf5ff;           --chip-block-fg:    #7e22ce;   /* purple-50/700 */
+
+  /* KPI card accent tints (DemoKPICards) */
+  --kpi-blue-bg:   #eff6ff;  --kpi-blue-fg:   #2563eb;
+  --kpi-green-bg:  #f0fdf4;  --kpi-green-fg:  #16a34a;
+  --kpi-amber-bg:  #fffbeb;  --kpi-amber-fg:  #d97706;
+  --kpi-purple-bg: #faf5ff;  --kpi-purple-fg: #9333ea;
+
+  /* ─── Focus / overlay ────────────────────────────────────────── */
+  --ring:           rgba(0,0,0,0.08);
+  --overlay-backdrop: rgba(17,24,39,0.55);
+
+  /* ─── Elevation (extremely restrained) ───────────────────────── */
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-2xl: 0 25px 50px -12px rgba(0,0,0,0.25);   /* hero dashboard only */
+
+  /* ─── Radii (Tailwind scale, as used) ────────────────────────── */
+  --radius-xs:    4px;   /* tiny inline chips, tags inside table */
+  --radius-sm:    6px;
+  --radius-md:    8px;   /* rounded-lg: buttons inside UI, filter chips */
+  --radius-lg:   12px;   /* rounded-xl: cards, inputs */
+  --radius-xl:   16px;   /* rounded-2xl: feature cards, hero dashboard */
+  --radius-2xl:  24px;   /* rounded-3xl: CTA panel */
+  --radius-full: 9999px; /* pill CTAs, badges */
+
+  /* ─── Spacing ramp (Tailwind @ 4px base) ─────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;   /* common py between marketing sections */
+  --space-24: 96px;
+  --space-32: 128px;  /* md:py-32 — the standard section rhythm */
+
+  --container-max: 1280px;   /* max-w-7xl */
+  --container-px:  24px;     /* px-6 */
+
+  /* ─── Type system ────────────────────────────────────────────── */
+  --font-sans: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Display/heading scale — matches Tailwind text-* used in Hero & sections */
+  --fs-display-xl: clamp(2.5rem, 5vw + 1rem, 4.5rem);  /* 40–72px — Hero h1 */
+  --fs-display-lg: clamp(2rem, 3vw + 1rem, 3rem);      /* 32–48px — Section h2 */
+  --fs-display-md: 1.875rem;  /* 30px */
+  --fs-h3:     1.125rem;  /* 18px — card titles */
+  --fs-lg:     1.125rem;  /* 18px — lead body */
+  --fs-body:   1rem;      /* 16px */
+  --fs-sm:     0.875rem;  /* 14px */
+  --fs-xs:     0.75rem;   /* 12px — eyebrows, metadata */
+  --fs-2xs:    0.625rem;  /* 10px — uppercase labels, pill tags */
+
+  --lh-tight:  1.1;
+  --lh-snug:   1.3;
+  --lh-normal: 1.5;
+  --lh-relax:  1.65;
+
+  --tracking-tight: -0.02em;
+  --tracking-wide: 0.1em;     /* uppercase eyebrows */
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   Base typography
+   ════════════════════════════════════════════════════════════════════════ */
+
+html { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+body {
+  background: var(--bg-page);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+}
+
+/* Semantic type — from nogo-web usage */
+.nogo-h1 {
+  font-size: var(--fs-display-xl);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tracking-tight);
+}
+.nogo-h2 {
+  font-size: var(--fs-display-lg);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-tight);
+}
+.nogo-h3 {
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  line-height: var(--lh-snug);
+}
+.nogo-eyebrow {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--fg-subtle);
+  letter-spacing: 0;
+}
+.nogo-eyebrow-upper {
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  color: var(--fg-subtle);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+.nogo-lead {
+  font-size: var(--fs-lg);
+  color: var(--fg-muted);
+  line-height: var(--lh-relax);
+}
+.nogo-body {
+  font-size: var(--fs-body);
+  color: var(--fg-primary);
+  line-height: var(--lh-normal);
+}
+.nogo-body-muted {
+  font-size: var(--fs-sm);
+  color: var(--fg-muted);
+  line-height: var(--lh-relax);
+}
+.nogo-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--fg-secondary);
+}
+
+/* Patterns pulled directly from globals.css ─────────────────────────── */
+
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.dark-grid-pattern {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fade-in-up 0.6s ease-out forwards; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LimoKungen / HagaLimo — light luxury layer on the NOGO tokens.
+   White canvas · royal purple as the brand hue · black accents.
+   Mono discipline kept: hairlines, generous whitespace, pill CTAs.
+   ═══════════════════════════════════════════════════════════════ */
+
+
+
+:root{
+  /* Surfaces — white canvas */
+  --page:   #ffffff;
+  --alt:    #f6f4fa;   /* faint purple-grey alt section */
+  --panel:  #ffffff;
+  --dark:   #0d0a14;   /* black accent band (footer, dark CTA) */
+
+  /* Hairlines */
+  --hair:        rgba(17,12,28,0.11);
+  --hair-soft:   rgba(17,12,28,0.07);
+  --hair-strong: rgba(17,12,28,0.24);
+
+  /* Text */
+  --t-hi:   #120d1c;   /* near-black headings */
+  --t:      #38323f;   /* body */
+  --t-mut:  #6c6678;   /* supporting */
+  --t-faint:#a39dae;   /* metadata */
+
+  /* Accent — royal purple (the brand hue). Tweakable. */
+  --accent:      #6d28d9;
+  --accent-deep: #4c1d95;
+  --accent-soft: #f1ebfc;
+  --accent-line: rgba(109,40,217,0.30);
+
+  /* on dark band */
+  --od-hi:#f6f3fb; --od:#cbc4d6; --od-mut:#8e8799; --od-hair:rgba(255,255,255,0.1);
+
+  --display: 'Cormorant Garamond', Georgia, serif;
+  --sans: var(--font-sans);
+
+  --max: 1200px;
+  --gutter: clamp(20px, 5vw, 56px);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--page);color:var(--t);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:#fff}
+
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:#efedf3}
+::-webkit-scrollbar-thumb{background:#cfc9d8;border-radius:9999px;border:3px solid #efedf3}
+::-webkit-scrollbar-thumb:hover{background:#b8b0c6}
+
+.wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--gutter)}
+.section{padding-block:clamp(72px,11vw,150px)}
+.alt{background:var(--alt)}
+
+/* ─── Type ─────────────────────────────────────────────── */
+.eyebrow{
+  font-family:var(--sans);font-size:12px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.22em;color:var(--accent);
+  display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:24px;height:1px;background:var(--accent)}
+.eyebrow.center{justify-content:center}
+.eyebrow.center::after{content:"";width:24px;height:1px;background:var(--accent)}
+.eyebrow.light{color:#c9b8f2}
+.eyebrow.light::before,.eyebrow.light.center::after{background:rgba(201,184,242,.6)}
+
+.display{
+  font-family:var(--display);font-weight:500;line-height:1.02;
+  letter-spacing:-0.005em;color:var(--t-hi);
+  font-size:clamp(2.7rem,7.2vw,5.6rem);
+}
+.h2{
+  font-family:var(--display);font-weight:500;line-height:1.05;
+  letter-spacing:-0.005em;color:var(--t-hi);
+  font-size:clamp(2.1rem,4.6vw,3.6rem);
+}
+.h3{font-family:var(--display);font-weight:500;font-size:clamp(1.5rem,2.4vw,2rem);color:var(--t-hi);line-height:1.1}
+.lead{font-size:clamp(1.05rem,1.6vw,1.28rem);color:var(--t-mut);line-height:1.7;font-weight:400;max-width:60ch}
+.muted{color:var(--t-mut)}
+.serif-i{font-family:var(--display);font-style:italic;color:var(--accent)}
+.on-dark .display,.on-dark .h2,.on-dark .h3{color:var(--od-hi)}
+.on-dark .lead{color:var(--od)}
+
+/* ─── Buttons ───────────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--sans);font-size:14px;font-weight:500;
+  padding:15px 28px;border-radius:9999px;cursor:pointer;border:1px solid transparent;
+  transition:background .25s,color .25s,border-color .25s,transform .25s,box-shadow .25s;
+  letter-spacing:.01em;
+}
+.btn svg{width:16px;height:16px}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 24px -10px rgba(109,40,217,.6)}
+.btn-primary:hover{background:var(--accent-deep);transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(109,40,217,.65)}
+.btn-dark{background:var(--dark);color:#fff}
+.btn-dark:hover{background:#241a36;transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--t-hi);border-color:var(--hair-strong)}
+.btn-ghost:hover{border-color:var(--t-hi);background:rgba(17,12,28,.04)}
+.btn-ghost.on-light{color:#fff;border-color:rgba(255,255,255,.35)}
+.btn-ghost.on-light:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+
+/* ─── Nav ──────────────────────────────────────────────── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px var(--gutter);
+  transition:background .35s,backdrop-filter .35s,padding .35s,border-color .35s,box-shadow .35s;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:rgba(255,255,255,0.85);backdrop-filter:blur(14px) saturate(1.4);
+  padding-block:13px;border-bottom-color:var(--hair-soft);box-shadow:0 1px 24px -12px rgba(17,12,28,.25);
+}
+/* hero is photo -> nav text light until scrolled */
+.nav:not(.scrolled){--navtx:#fff;--navsub:rgba(255,255,255,.7)}
+.nav.scrolled{--navtx:var(--t-hi);--navsub:var(--t-mut)}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.brand .crown{width:27px;height:27px;color:var(--accent);flex:none}
+.nav:not(.scrolled) .brand .crown{color:#fff}
+.brand-tx{line-height:1}
+.brand-name{display:block;font-family:var(--display);font-size:24px;font-weight:600;color:var(--navtx);letter-spacing:.02em;line-height:1;transition:color .35s}
+.brand-sub{display:block;font-size:9.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--navsub);margin-top:4px;transition:color .35s}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--navtx);letter-spacing:.02em;transition:color .2s,opacity .2s;position:relative;padding-block:4px;opacity:.92}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--accent);transition:width .28s}
+.nav-links a:hover{opacity:1}
+.nav-links a:hover::after{width:100%}
+.nav-cta{display:flex;align-items:center;gap:14px}
+.nav .btn{padding:11px 22px}
+.burger{display:none;background:none;border:1px solid var(--hair-strong);border-radius:9999px;width:42px;height:42px;color:var(--navtx);cursor:pointer;align-items:center;justify-content:center}
+.nav:not(.scrolled) .burger{border-color:rgba(255,255,255,.4)}
+.burger svg{width:18px;height:18px}
+
+.mobile-menu{position:fixed;inset:0;z-index:99;background:rgba(255,255,255,0.98);backdrop-filter:blur(10px);
+  display:flex;flex-direction:column;justify-content:center;gap:6px;padding:var(--gutter);
+  transform:translateY(-100%);opacity:0;pointer-events:none;transition:transform .4s,opacity .4s}
+.mobile-menu.open{transform:translateY(0);opacity:1;pointer-events:auto}
+.mobile-menu a{font-family:var(--display);font-size:34px;color:var(--t-hi);padding:9px 0;border-bottom:1px solid var(--hair-soft)}
+.mobile-menu a:last-of-type{border:none}
+
+/* ─── Hero ─────────────────────────────────────────────── */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;background:#1a1320}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);animation:slowzoom 20s ease-out forwards}
+@keyframes slowzoom{to{transform:scale(1)}}
+.hero-bg::after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,rgba(13,10,20,.62) 0%,rgba(13,10,20,.28) 32%,rgba(13,10,20,.45) 64%,rgba(13,10,20,.88) 100%),
+    linear-gradient(90deg,rgba(13,10,20,.42) 0%,transparent 46%)}
+.hero-bg::before{content:"";position:absolute;inset:0;z-index:1;
+  background:radial-gradient(120% 90% at 15% 100%,rgba(109,40,217,.32),transparent 55%)}
+.hero-inner{position:relative;z-index:2;width:100%;max-width:var(--max);margin:0 auto;padding:clamp(104px,15vh,150px) var(--gutter) clamp(56px,9vw,116px)}
+.hero h1{margin:18px 0 0;max-width:15ch;color:#fff}
+.hero .lead{margin-top:24px;color:rgba(255,255,255,.86);max-width:46ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:30px;margin-top:48px;padding-top:30px;border-top:1px solid rgba(255,255,255,.16)}
+.hero-meta .item{display:flex;flex-direction:column;gap:4px}
+.hero-meta .num{font-family:var(--display);font-size:32px;color:#fff;line-height:1}
+.hero-meta .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:rgba(255,255,255,.62)}
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,.6);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.scroll-hint .mouse{width:22px;height:34px;border:1px solid rgba(255,255,255,.45);border-radius:12px;position:relative}
+.scroll-hint .mouse::after{content:"";position:absolute;top:6px;left:50%;width:3px;height:6px;background:#fff;border-radius:2px;transform:translateX(-50%);animation:scrolldot 1.8s infinite}
+@keyframes scrolldot{0%{opacity:0;transform:translate(-50%,0)}40%{opacity:1}100%{opacity:0;transform:translate(-50%,10px)}}
+
+/* ─── Intro / offering ─────────────────────────────────── */
+.offer{display:grid;grid-template-columns:1fr 1fr;gap:clamp(34px,6vw,88px);align-items:center}
+.offer .tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.tag{font-size:12.5px;letter-spacing:.02em;color:var(--t);border:1px solid var(--hair);border-radius:9999px;padding:9px 16px;transition:border-color .25s,color .25s,background .25s}
+.tag:hover{border-color:var(--accent-line);color:var(--accent);background:var(--accent-soft)}
+.offer-photo{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px -30px rgba(17,12,28,.4)}
+.offer-photo img{width:100%;height:100%;object-fit:cover}
+.offer-badge{position:absolute;top:20px;left:20px;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border-radius:9999px;padding:9px 16px;font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.04em;display:flex;align-items:center;gap:8px}
+.offer-badge svg{width:14px;height:14px}
+
+/* ─── Section head ─────────────────────────────────────── */
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:clamp(40px,6vw,68px)}
+.sec-head .lead{margin-top:18px}
+
+/* ─── Fleet ────────────────────────────────────────────── */
+.fleet{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.card{position:relative;background:var(--panel);border:1px solid var(--hair-soft);border-radius:6px;overflow:hidden;
+  transition:border-color .3s,transform .4s,box-shadow .4s;cursor:pointer;display:flex;flex-direction:column}
+.card:hover{border-color:var(--accent-line);transform:translateY(-5px);box-shadow:0 30px 50px -28px rgba(17,12,28,.35)}
+.card .ph{position:relative;overflow:hidden;background:#ece9f2}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+.card:hover .ph img{transform:scale(1.06)}
+.card .seats{position:absolute;top:16px;right:16px;z-index:2;font-size:11px;letter-spacing:.05em;color:var(--t-hi);font-weight:600;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:7px 13px;border-radius:9999px;display:flex;gap:7px;align-items:center}
+.card .seats svg{width:13px;height:13px;color:var(--accent)}
+.card .body{padding:24px 26px 26px}
+.card .kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:9px;font-weight:600}
+.card h3{margin:0}
+.card p{margin:10px 0 0;font-size:14px;color:var(--t-mut);line-height:1.6}
+.card.lg{grid-column:span 7}
+.card.lg .ph{aspect-ratio:16/10}
+.card.sm{grid-column:span 5}
+.card.sm .ph{aspect-ratio:16/11}
+.card.third{grid-column:span 4}
+.card.third .ph{aspect-ratio:4/3}
+.card.empty{cursor:default}
+.card.empty:hover{transform:none}
+.card.empty .ph{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;background:
+  repeating-linear-gradient(135deg,#f3f0f9,#f3f0f9 16px,#eee9f6 16px,#eee9f6 32px)}
+.card.empty .ev{display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--accent)}
+.card.empty .ev svg{width:38px;height:38px;opacity:.8}
+.card.empty .ev span{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--t-faint)}
+
+/* ─── Video ────────────────────────────────────────────── */
+.video-frame{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--hair-soft);aspect-ratio:16/9;background:#000;margin-top:clamp(34px,5vw,56px);box-shadow:0 40px 80px -40px rgba(17,12,28,.5)}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-poster{position:absolute;inset:0;cursor:pointer;z-index:3}
+.video-poster img{width:100%;height:100%;object-fit:cover}
+.video-poster::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(13,10,20,.5),rgba(13,10,20,.2))}
+.video-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;pointer-events:none}
+.video-play .ring{width:92px;height:92px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;transition:transform .3s,background .3s;box-shadow:0 0 0 0 rgba(109,40,217,.5);animation:vpulse 2.6s infinite}
+@keyframes vpulse{0%{box-shadow:0 0 0 0 rgba(109,40,217,.45)}70%{box-shadow:0 0 0 22px rgba(109,40,217,0)}100%{box-shadow:0 0 0 0 rgba(109,40,217,0)}}
+.video-poster:hover ~ .video-play .ring{transform:scale(1.08)}
+.video-play svg{width:32px;height:32px;color:#fff;margin-left:5px}
+
+/* ─── Coverage ─────────────────────────────────────────── */
+.cov-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(36px,6vw,80px);align-items:center}
+.towns{display:flex;flex-wrap:wrap;gap:9px;margin-top:30px}
+.town{font-size:13px;color:var(--t-mut);border:1px solid var(--hair);border-radius:9999px;padding:7px 14px;transition:.25s}
+.town:hover{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft)}
+
+/* ─── About ────────────────────────────────────────────── */
+.about{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,6vw,84px);align-items:center}
+.about .portrait{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:5/6;box-shadow:0 30px 60px -34px rgba(17,12,28,.4)}
+.about .portrait img{width:100%;height:100%;object-fit:cover}
+.signature{margin-top:28px;display:flex;align-items:center;gap:14px}
+.signature .line{width:40px;height:1px;background:var(--accent)}
+.signature .who{font-family:var(--display);font-size:21px;color:var(--t-hi)}
+.signature .role{font-size:12px;color:var(--t-mut);letter-spacing:.03em}
+.quote{font-family:var(--display);font-size:clamp(1.4rem,2.4vw,1.95rem);line-height:1.32;color:var(--t-hi);margin:0 0 26px;font-weight:400}
+.quote .serif-i{font-style:italic}
+
+/* ─── Press ────────────────────────────────────────────── */
+.press-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:clamp(34px,5vw,52px)}
+.press-card{background:var(--panel);border:1px solid var(--hair-soft);border-radius:6px;padding:36px 34px;transition:border-color .3s,box-shadow .3s}
+.press-card:hover{border-color:var(--accent-line);box-shadow:0 24px 44px -30px rgba(17,12,28,.3)}
+.press-card .pk{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.press-card h3{margin:14px 0 12px}
+.press-card p{font-size:14px;color:var(--t-mut);margin:0 0 22px}
+.press-links{display:flex;flex-wrap:wrap;gap:10px}
+.press-links a{font-size:12.5px;color:var(--t);border:1px solid var(--hair);border-radius:9999px;padding:7px 14px;display:inline-flex;align-items:center;gap:6px;transition:.25s}
+.press-links a:hover{color:var(--accent);border-color:var(--accent-line);background:var(--accent-soft)}
+.press-links a svg{width:12px;height:12px;color:var(--t-faint)}
+.press-links a:hover svg{color:var(--accent)}
+.sponsors{margin-top:clamp(42px,5vw,64px);border-top:1px solid var(--hair-soft);padding-top:38px}
+.sponsors .lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--t-faint);margin-bottom:20px}
+.sponsor-list{display:flex;flex-wrap:wrap;gap:10px 26px}
+.sponsor-list a{font-size:14px;color:var(--t-mut);transition:color .2s}
+.sponsor-list a:hover{color:var(--accent)}
+
+/* ─── Booking ──────────────────────────────────────────── */
+.book-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(40px,6vw,84px)}
+.book-aside .lead{margin-top:20px}
+.book-points{margin-top:36px;display:flex;flex-direction:column;gap:22px}
+.book-points .pt{display:flex;gap:16px;align-items:flex-start}
+.book-points .pt .ic{flex:none;width:44px;height:44px;border:1px solid var(--accent-line);background:var(--accent-soft);border-radius:9999px;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.book-points .pt .ic svg{width:18px;height:18px}
+.book-points .pt h4{margin:0 0 4px;font-family:var(--sans);font-size:15px;font-weight:600;color:var(--t-hi)}
+.book-points .pt p{margin:0;font-size:13.5px;color:var(--t-mut)}
+.form{background:var(--panel);border:1px solid var(--hair-soft);border-radius:8px;padding:clamp(26px,3.5vw,42px);box-shadow:0 30px 60px -40px rgba(17,12,28,.35)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{margin-bottom:18px;display:flex;flex-direction:column;gap:8px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--t-mut);font-weight:500}
+.field label .req{color:var(--accent)}
+.field input,.field select,.field textarea{
+  background:#fbfafd;border:1px solid var(--hair);border-radius:4px;color:var(--t-hi);
+  font-family:var(--sans);font-size:15px;padding:13px 15px;transition:border-color .2s,box-shadow .2s,background .2s;width:100%}
+.field textarea{resize:vertical;min-height:98px}
+.field input::placeholder,.field textarea::placeholder{color:var(--t-faint)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-soft)}
+.field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%236c6678' stroke-width='2' viewBox='0 0 24 24'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center}
+.form .submit{margin-top:8px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.form .note{font-size:12px;color:var(--t-faint);max-width:30ch}
+.form-ok{display:none;text-align:center;padding:34px 10px}
+.form-ok.show{display:block;animation:fade-in-up .5s ease-out}
+.form-ok .ico{width:62px;height:62px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;color:var(--accent)}
+.form-ok .ico svg{width:28px;height:28px}
+.form-ok h3{margin:0 0 10px}
+.form-ok p{color:var(--t-mut);font-size:14px;max-width:42ch;margin:0 auto}
+
+/* ─── Footer (black accent band) ───────────────────────── */
+.footer{background:var(--dark);color:var(--od);padding-top:clamp(60px,8vw,100px)}
+.footer .brand-name{color:var(--od-hi)}
+.footer .crown{color:var(--accent)}
+.foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.1fr;gap:40px;padding-bottom:54px;border-bottom:1px solid var(--od-hair)}
+.foot-brand .brand{margin-bottom:18px}
+.foot-brand p{color:var(--od-mut);font-size:14px;max-width:32ch;margin:0 0 24px}
+.foot-col h5{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--od-mut);margin:0 0 18px}
+.foot-col a,.foot-col p{display:block;color:var(--od);font-size:14px;margin-bottom:11px;transition:color .2s}
+.foot-col a:hover{color:var(--accent)}
+.foot-col .ln{display:flex;align-items:center;gap:10px}
+.foot-col .ln svg{width:15px;height:15px;color:var(--od-mut);flex:none}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:28px;flex-wrap:wrap}
+.foot-bottom p{font-size:12.5px;color:var(--od-mut);margin:0}
+.social{display:flex;gap:12px}
+.social a{width:40px;height:40px;border:1px solid var(--od-hair);border-radius:9999px;display:flex;align-items:center;justify-content:center;color:var(--od-mut);transition:.25s}
+.social a:hover{color:var(--accent);border-color:var(--accent-line);background:rgba(109,40,217,.12)}
+.social a svg{width:17px;height:17px}
+
+/* ─── Reveal ───────────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-d="1"]{transition-delay:.08s}
+.reveal[data-d="2"]{transition-delay:.16s}
+.reveal[data-d="3"]{transition-delay:.24s}
+.reveal[data-d="4"]{transition-delay:.32s}
+@keyframes fade-in-up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ─── Lightbox ─────────────────────────────────────────── */
+.lightbox{position:fixed;inset:0;z-index:200;background:rgba(13,10,20,.92);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;padding:40px}
+.lightbox.open{opacity:1;pointer-events:auto}
+.lightbox img{max-width:92vw;max-height:86vh;object-fit:contain;border-radius:4px}
+.lightbox .lb-close{position:absolute;top:24px;right:28px;color:#fff;background:none;border:1px solid rgba(255,255,255,.35);border-radius:9999px;width:46px;height:46px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lightbox .lb-close svg{width:20px;height:20px}
+.lightbox .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.3);color:#fff;width:52px;height:52px;border-radius:9999px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.lightbox .lb-nav:hover{background:var(--accent);border-color:var(--accent)}
+.lightbox .lb-prev{left:28px}.lightbox .lb-next{right:28px}
+.lightbox .lb-nav svg{width:22px;height:22px}
+.lightbox .lb-cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:rgba(255,255,255,.7);font-size:13px;letter-spacing:.04em}
+
+/* ─── Responsive ───────────────────────────────────────── */
+@media(max-width:980px){
+  .nav-links{display:none}
+  .nav .nav-cta .btn{display:none}
+  .burger{display:flex}
+  .offer,.cov-grid,.about,.book-grid{grid-template-columns:1fr}
+  .press-grid{grid-template-columns:1fr}
+  .foot-top{grid-template-columns:1fr 1fr}
+  .card.lg,.card.sm,.card.third{grid-column:span 12}
+  .card.lg .ph,.card.sm .ph,.card.third .ph{aspect-ratio:16/10}
+  .offer-photo{order:-1;aspect-ratio:4/3;max-width:520px}
+  .about .portrait{order:-1;max-width:440px}
+}
+@media(max-width:560px){
+  .form-row{grid-template-columns:1fr}
+  .foot-top{grid-template-columns:1fr}
+  .hero-meta{gap:22px}
+  .sec-head{flex-direction:column;align-items:flex-start}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   v2 additions — marquee hero · carousels · gallery · contact
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Hero marquee ─────────────────────────────────────── */
+.hero{background:#0d0a14}
+.hero-marquee{position:absolute;inset:0;z-index:0;display:flex;flex-direction:column;gap:10px;padding:10px}
+.mq-row{flex:1 1 0;min-height:0;overflow:hidden;display:flex;align-items:center}
+.mq-track{display:flex;gap:10px;height:100%;flex:none;width:max-content;will-change:transform;animation:mq var(--mq-dur,110s) linear infinite}
+.mq-row.rev .mq-track{animation-direction:reverse}
+.mq-track img{height:100%;width:auto;max-width:none;object-fit:cover;border-radius:6px;display:block;background:#1a1320}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.hero-veil{position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(180deg,rgba(13,10,20,.84) 0%,rgba(13,10,20,.5) 34%,rgba(13,10,20,.58) 62%,rgba(13,10,20,.93) 100%),
+    radial-gradient(120% 80% at 12% 100%,rgba(109,40,217,.36),transparent 56%)}
+@media(prefers-reduced-motion:reduce){.mq-track{animation:none}}
+
+/* ── Vehicle carousels ────────────────────────────────── */
+.card .ph{position:relative}
+.carousel{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;cursor:zoom-in}
+.carousel .cslides{display:flex;height:100%;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.carousel .cslides img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;display:block}
+.card:hover .ph .cslides img{transform:none}
+.cbtn{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:40px;height:40px;border-radius:9999px;
+  border:1px solid rgba(255,255,255,.4);background:rgba(13,10,20,.42);backdrop-filter:blur(6px);color:#fff;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity .25s,background .2s,border-color .2s}
+.card:hover .cbtn{opacity:1}
+.cbtn:hover{background:var(--accent);border-color:var(--accent)}
+.cbtn svg{width:18px;height:18px}
+.cprev{left:12px}.cnext{right:12px}
+.cdots{position:absolute;bottom:12px;left:0;right:0;z-index:3;display:flex;gap:7px;justify-content:center}
+.cdots button{width:7px;height:7px;border-radius:9999px;border:none;background:rgba(255,255,255,.55);cursor:pointer;padding:0;transition:.25s}
+.cdots button.on{background:#fff;width:20px}
+.ccount{position:absolute;top:12px;left:12px;z-index:3;font-size:11px;letter-spacing:.05em;color:#fff;
+  background:rgba(13,10,20,.45);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);padding:5px 10px;border-radius:9999px}
+@media(hover:none){.cbtn{opacity:.9}}
+
+/* ── Empty carousel (awaiting photos) ─────────────────── */
+.carousel.cempty{cursor:default;background:
+  repeating-linear-gradient(135deg,#f3f0f9,#f3f0f9 18px,#eee9f6 18px,#eee9f6 36px)}
+.cempty-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;text-align:center;padding:18px}
+.cempty-in .cei{width:46px;height:46px;border-radius:9999px;background:var(--accent-soft);border:1px solid var(--accent-line);
+  display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.cempty-in .cei svg{width:20px;height:20px}
+.cempty-in .cet{font-size:13px;font-weight:600;color:var(--t-hi);letter-spacing:.02em}
+.cempty-in .ces{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--t-faint)}
+
+.fleet-note{margin-top:clamp(30px,4vw,46px);font-size:15px;color:var(--t-mut);text-align:center}
+.fleet-note a{color:var(--accent);border-bottom:1px solid var(--accent-line);transition:border-color .2s}
+.fleet-note a:hover{border-color:var(--accent)}
+
+/* ── Gallery (masonry) ────────────────────────────────── */
+.gallery-grid{column-count:4;column-gap:14px}
+.gitem{break-inside:avoid;margin:0 0 14px;position:relative;border-radius:6px;overflow:hidden;cursor:zoom-in;background:#ece9f2}
+.gitem img{width:100%;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.gitem:hover img{transform:scale(1.045)}
+.gitem figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 14px 12px;font-size:12px;color:#fff;
+  background:linear-gradient(transparent,rgba(13,10,20,.82));opacity:0;transform:translateY(6px);transition:.3s}
+.gitem:hover figcaption{opacity:1;transform:none}
+@media(max-width:980px){.gallery-grid{column-count:3}}
+@media(max-width:680px){.gallery-grid{column-count:2}}
+@media(max-width:430px){.gallery-grid{column-count:1}}
+
+/* ── Contact ──────────────────────────────────────────── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,72px);align-items:center}
+.contact-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+.ccard{display:flex;align-items:center;gap:14px;padding:18px;border:1px solid var(--hair-soft);border-radius:8px;background:var(--panel);
+  transition:border-color .25s,box-shadow .25s,transform .25s}
+.ccard:hover{border-color:var(--accent-line);box-shadow:0 18px 36px -26px rgba(17,12,28,.4);transform:translateY(-2px)}
+.ccard .ci{flex:none;width:44px;height:44px;border-radius:9999px;background:var(--accent-soft);border:1px solid var(--accent-line);
+  display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.ccard .ci svg{width:19px;height:19px}
+.ccard .ct{display:flex;flex-direction:column;min-width:0}
+.ccard .cl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--t-faint)}
+.ccard .cv{font-size:14.5px;color:var(--t-hi);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.map-wrap{border-radius:8px;overflow:hidden;border:1px solid var(--hair-soft);aspect-ratio:4/3;box-shadow:0 30px 60px -40px rgba(17,12,28,.35)}
+.map-wrap iframe{width:100%;height:100%;border:0;filter:grayscale(.18) contrast(1.02)}
+@media(max-width:980px){.contact-grid{grid-template-columns:1fr}.map-wrap{aspect-ratio:16/10}}
+@media(max-width:520px){.contact-cards{grid-template-columns:1fr}}
+
+/* ── Book direct + nav phone ──────────────────────────── */
+.book-direct{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px}
+.book-direct .bd{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:500;color:var(--t-hi);
+  border:1px solid var(--hair);border-radius:9999px;padding:11px 18px;transition:.25s}
+.book-direct .bd:hover{border-color:var(--accent-line);color:var(--accent);background:var(--accent-soft)}
+.book-direct .bd svg{width:16px;height:16px;color:var(--accent)}
+.nav-phone{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:var(--navtx);opacity:.9;transition:opacity .2s,color .35s}
+.nav-phone:hover{opacity:1}
+.nav-phone svg{width:15px;height:15px;color:var(--accent)}
+.nav:not(.scrolled) .nav-phone svg{color:#fff}
+@media(max-width:1180px){.nav-phone{display:none}}
+
+/* ── Film section extras ──────────────────────────────── */
+.film-aside{display:flex;flex-direction:column;align-items:flex-end;gap:16px;text-align:right}
+@media(max-width:760px){.film-aside{align-items:flex-start;text-align:left}}
+.yt-link{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:500;color:var(--t-hi);
+  border:1px solid var(--hair);border-radius:9999px;padding:11px 18px;transition:.25s;white-space:nowrap}
+.yt-link:hover{border-color:var(--accent-line);color:var(--accent);background:var(--accent-soft)}
+.yt-link svg{width:15px;height:15px;color:var(--accent)}
+.yt-link svg:last-child{width:13px}
+.video-fallback{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:2;
+  display:none;align-items:center;gap:8px;font-size:13px;color:#fff;background:rgba(13,10,20,.62);
+  backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);border-radius:9999px;padding:9px 16px;white-space:nowrap}
+.video-fallback svg{width:13px;height:13px}
+.video-fallback:hover{background:rgba(13,10,20,.8)}
+.video-frame.playing .video-fallback{display:inline-flex}
+
+</style>
+</head>
+<body>
+
+<!-- ─────────────────────────  NAV  ───────────────────────── -->
+<nav class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="LimoKungen — start">
+    <i data-ic="crown" class="crown"></i>
+    <span class="brand-tx">
+      <span class="brand-name">LimoKungen</span>
+      <span class="brand-sub">HagaLimo</span>
+    </span>
+  </a>
+  <div class="nav-links">
+    <a href="#limousiner">Limousiner</a>
+    <a href="#galleri">Galleri</a>
+    <a href="#video">Film</a>
+    <a href="#omrade">Områden</a>
+    <a href="#om-oss">Om oss</a>
+    <a href="#kontakt">Kontakt</a>
+  </div>
+  <div class="nav-cta">
+    <a href="tel:+46704245693" class="nav-phone" aria-label="Ring oss"><i data-ic="phone"></i> 070-42 45 693</a>
+    <a href="#boka" class="btn btn-primary">Boka limo <i data-ic="arrow-right"></i></a>
+    <button class="burger" id="burger" aria-label="Meny"><i data-ic="menu"></i></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#limousiner">Limousiner</a>
+  <a href="#galleri">Galleri</a>
+  <a href="#video">Film</a>
+  <a href="#omrade">Områden</a>
+  <a href="#om-oss">Om oss</a>
+  <a href="#kontakt">Kontakt</a>
+  <a href="#boka">Boka limo</a>
+</div>
+
+<!-- ─────────────────────────  HERO  ──────────────────────── -->
+<header class="hero" id="top" data-screen-label="Hero">
+  <div class="hero-marquee" id="heroMarquee" aria-hidden="true"></div>
+  <div class="hero-veil" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <span class="eyebrow light">Hos LimoKungen · HagaLimo</span>
+    <h1 class="display">Boka din limousine — <span class="serif-i">vart ni än ska</span></h1>
+    <p class="lead">Vart du än är – vart du än ska. Vi ordnar limousine till fest och bröllop, partybussar, hummerlimousine och studentflak. Var du än är i Sverige med omnejd så hjälper vi dig.</p>
+    <div class="hero-cta">
+      <a href="#boka" class="btn btn-primary">Boka limo <i data-ic="arrow-right"></i></a>
+      <a href="#limousiner" class="btn btn-ghost on-light">Se limousinerna <i data-ic="arrow-right"></i></a>
+    </div>
+    <div class="hero-meta">
+      <div class="item"><span class="num">26+</span><span class="lbl">Orter i Sverige</span></div>
+      <div class="item"><span class="num">7</span><span class="lbl">Limousiner &amp; bussar</span></div>
+      <div class="item"><span class="num">365</span><span class="lbl">Dagar om året</span></div>
+    </div>
+  </div>
+  <a href="#limousiner" class="scroll-hint" aria-label="Scrolla ner"><span class="mouse"></span>Scrolla</a>
+</header>
+
+<!-- ─────────────────────────  OFFER  ─────────────────────── -->
+<section class="section">
+  <div class="wrap offer">
+    <div class="reveal">
+      <span class="eyebrow">Välkommen</span>
+      <h2 class="h2" style="margin:18px 0 0">En limo för varje tillfälle och sällskap</h2>
+      <p class="lead" style="margin-top:22px">Hos LimoKungen / HagaLimo bokar du din limousine snabbt och smidigt. Vi ordnar transport till stora dagar och stora kvällar — med fokus på en seriös upplevelse från första kontakt till sista milen.</p>
+      <div class="tags">
+        <span class="tag">Bröllop</span>
+        <span class="tag">Fest</span>
+        <span class="tag">Studentflak</span>
+        <span class="tag">Partybuss</span>
+        <span class="tag">Hummerlimousine</span>
+        <span class="tag">Företagsevent</span>
+      </div>
+    </div>
+    <div class="reveal" data-d="1">
+      <div class="offer-photo">
+        <img class="lb" data-cap="Bröllop med LimoKungen" src="https://impro.usercontent.one/appid/oneComWsb/domain/limokungen.se/media/limokungen.se/onewebmedia/IMG_4500.jpg" alt="Bröllopssällskap framför vit stretchlimousine">
+        <span class="offer-badge"><i data-ic="crown"></i> Fest &amp; bröllop</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────  FLEET  ─────────────────────── -->
+<section class="section alt" id="limousiner" data-screen-label="Limousiner">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="eyebrow">Våra limousiner</span>
+        <h2 class="h2" style="margin-top:16px">Vi har en limo för varje tillfälle</h2>
+      </div>
+      <p class="lead">Limousiner, partybussar och studentflak — bläddra mellan bilderna och välj fordonet som matchar ert sällskap.</p>
+    </div>
+
+    <div class="fleet">
+      <article class="card lg reveal">
+        <div class="ph"><div class="carousel" data-set="hummerVit"></div></div>
+        <div class="body"><div class="kicker">Hummerlimousine</div><h3 class="h3">Hummer H2</h3>
+          <p>Klassikern. Den vita stretchlimousinen med plats för sällskapet — perfekt för bröllop, fest och stadens kväll.</p></div>
+      </article>
+
+      <article class="card sm reveal" data-d="1">
+        <div class="ph"><div class="carousel" data-set="ford"></div></div>
+        <div class="body"><div class="kicker">Megastretch</div><h3 class="h3">Ford F-650 Megastretch</h3>
+          <p>Vår största limousine. En riktig megastretch som vänder huvuden var ni än kör.</p></div>
+      </article>
+
+      <article class="card sm reveal">
+        <div class="ph"><div class="carousel" data-set="cadillac"></div></div>
+        <div class="body"><div class="kicker">Klassisk limousine</div><h3 class="h3">Cadillac DeVille</h3>
+          <p>Tidlös elegans för den som vill ha det stilrena, klassiska uttrycket.</p></div>
+      </article>
+
+      <article class="card lg reveal" data-d="1">
+        <div class="ph"><div class="carousel" data-set="hummerRod"></div></div>
+        <div class="body"><div class="kicker">Hummerlimousine</div><h3 class="h3">Hummer H2 Röd</h3>
+          <p>Samma ikon — i rött. Sticker ut i mängden och syns på långt håll.</p></div>
+      </article>
+
+      <article class="card third reveal">
+        <div class="ph"><div class="carousel" data-set="bentley"></div></div>
+        <div class="body"><div class="kicker">Lyxlimousine</div><h3 class="h3">Bentley Continental GT</h3>
+          <p>När tillfället kräver det yttersta. Diskret lyx i världsklass.</p></div>
+      </article>
+
+      <article class="card third reveal" data-d="1">
+        <div class="ph"><div class="carousel" data-set="partybuss"></div></div>
+        <div class="body"><div class="kicker">Partybussar</div><h3 class="h3">Partybussar</h3>
+          <p>Flytta festen till vägen. Partybuss med ljud, ljus och gott om plats för hela gänget.</p></div>
+      </article>
+
+      <article class="card third reveal" data-d="2">
+        <div class="ph"><div class="carousel" data-set="studentflak"></div></div>
+        <div class="body"><div class="kicker">Student</div><h3 class="h3">Studentflak</h3>
+          <p>Fira studenten på klassiskt vis — flak med ljud och utrymme för hela klassen.</p></div>
+      </article>
+    </div>
+
+    <p class="fleet-note reveal">Fler bilder på Cadillac DeVille och Bentley Continental GT kommer inom kort — <a href="#kontakt">kontakta oss</a> för bilder och tillgänglighet.</p>
+  </div>
+</section>
+
+<!-- ─────────────────────────  GALLERI  ───────────────────── -->
+<section class="section" id="galleri" data-screen-label="Galleri">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:clamp(34px,5vw,52px)">
+      <div>
+        <span class="eyebrow">Galleri</span>
+        <h2 class="h2" style="margin-top:16px">Bilder på och i våra limousiner</h2>
+      </div>
+      <p class="lead">Från stjärnhimmel och neonrör till bröllop och student. Klicka på en bild för att förstora.</p>
+    </div>
+    <div class="gallery-grid reveal" id="galleryGrid"></div>
+  </div>
+</section>
+
+<!-- ─────────────────────────  VIDEO  ─────────────────────── -->
+<section class="section alt" id="video" data-screen-label="Film">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:0">
+      <div>
+        <span class="eyebrow">Film</span>
+        <h2 class="h2" style="margin-top:16px">Se LimoKungen i rörelse</h2>
+      </div>
+      <div class="film-aside">
+        <p class="lead">En titt på limousinerna, sällskapen och stämningen — vart vägen än bär.</p>
+        <a class="yt-link" href="https://www.youtube.com/watch?v=qPZ2rZjR-to" target="_blank" rel="noopener"><i data-ic="play"></i> Öppna på YouTube <i data-ic="external"></i></a>
+      </div>
+    </div>
+    <div class="video-frame reveal" data-d="1" id="videoFrame" data-yt="https://www.youtube-nocookie.com/embed/qPZ2rZjR-to?rel=0&autoplay=1&playsinline=1">
+      <div class="video-poster" id="videoPoster">
+        <img src="https://impro.usercontent.one/appid/oneComWsb/domain/limokungen.se/media/limokungen.se/onewebmedia/IMG_7172.jpg" alt="Förhandsvisning av film">
+      </div>
+      <div class="video-play"><span class="ring"><i data-ic="play"></i></span></div>
+      <a class="video-fallback" href="https://www.youtube.com/watch?v=qPZ2rZjR-to" target="_blank" rel="noopener">Filmen laddar inte? Öppna på YouTube <i data-ic="external"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────  COVERAGE  ──────────────────── -->
+<section class="section" id="omrade" data-screen-label="Områden">
+  <div class="wrap cov-grid">
+    <div class="reveal offer-photo" style="aspect-ratio:4/5">
+      <img class="lb" data-cap="På väg genom Sverige" src="https://impro.usercontent.one/appid/oneComWsb/domain/limokungen.se/media/limokungen.se/onewebmedia/IMG_3300.jpg" alt="Buss på svensk landsväg">
+    </div>
+    <div class="reveal" data-d="1">
+      <span class="eyebrow">Hela Sverige med omnejd</span>
+      <h2 class="h2" style="margin:16px 0 0">Var ni än är — så hjälper vi er</h2>
+      <p class="lead" style="margin-top:20px">Med LimoKungen kan du resa med limousine i hela Sverige. Några vanliga orter:</p>
+      <div class="towns">
+        <span class="town">Töreboda</span><span class="town">Mariestad</span><span class="town">Skövde</span>
+        <span class="town">Skara</span><span class="town">Lidköping</span><span class="town">Vårgårda</span>
+        <span class="town">Ulricehamn</span><span class="town">Karlskoga</span><span class="town">Jönköping</span>
+        <span class="town">Vadstena</span><span class="town">Nyköping</span><span class="town">Norrköping</span>
+        <span class="town">Karlstad</span><span class="town">Sunne</span><span class="town">Kristinehamn</span>
+        <span class="town">Hova</span><span class="town">Stockholm</span><span class="town">Göteborg</span>
+        <span class="town">Borås</span><span class="town">Gislaved</span><span class="town">Falköping</span>
+        <span class="town">Tidaholm</span><span class="town">Uddevalla</span><span class="town">Trollhättan</span>
+        <span class="town">Linköping</span><span class="town">Örebro</span><span class="town">Motala</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────  ABOUT  ─────────────────────── -->
+<section class="section alt" id="om-oss" data-screen-label="Om oss">
+  <div class="wrap about">
+    <div class="reveal">
+      <span class="eyebrow">Information</span>
+      <p class="quote" style="margin-top:22px">Vart ni än är i Sverige med omnejd hjälper vi er att hitta en seriös transportör för just ert ändamål — <span class="serif-i">snabbt och smidigt.</span></p>
+      <p class="lead">LimoKungen drivs av Håkan Andersson (HagaLimo). Klicka på “Boka limo” om du vill skicka en bokningsförfrågan, eller kontakta oss direkt om du har frågor.</p>
+      <div class="signature">
+        <span class="line"></span>
+        <span><span class="who">Håkan Andersson</span><br><span class="role">Grundare · HagaLimo</span></span>
+      </div>
+    </div>
+    <div class="reveal portrait" data-d="1">
+      <img class="lb" data-cap="LimoKungens flotta" src="https://impro.usercontent.one/appid/oneComWsb/domain/limokungen.se/media/limokungen.se/onewebmedia/image%20%2827%29.jpeg" alt="LimoKungens flotta uppställd">
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────  PRESS  ─────────────────────── -->
+<section class="section" id="press" data-screen-label="Press">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:0">
+      <div>
+        <span class="eyebrow">Information &amp; press</span>
+        <h2 class="h2" style="margin-top:16px">I medierna</h2>
+      </div>
+      <p class="lead">Från Kulturkalaset i Skövde till världens första limousine med snöplog.</p>
+    </div>
+    <div class="press-grid">
+      <article class="press-card reveal">
+        <div class="pk">Nöjesbladet</div>
+        <h3 class="h3">Omnämnda i Nöjesbladet</h3>
+        <p>Vi benämns i Nöjesbladet angående Kulturkalaset i Skövde.</p>
+        <div class="press-links">
+          <a href="http://www.aftonbladet.se/nojesbladet/article19800437.ab" target="_blank" rel="noopener">Läs artikeln <i data-ic="external"></i></a>
+        </div>
+      </article>
+      <article class="press-card reveal" data-d="1">
+        <div class="pk">Svensk &amp; internationell press</div>
+        <h3 class="h3">Världens första limo med snöplog</h3>
+        <p>Vår Hummer H2-limousine med snöplog uppmärksammades i media. Läs, lyssna och titta:</p>
+        <div class="press-links">
+          <a href="http://sverigesradio.se/sida/artikel.aspx?programid=97&artikel=6073734" target="_blank" rel="noopener">Sveriges Radio <i data-ic="external"></i></a>
+          <a href="http://www.expressen.se/gt/hakan-plogar-vagarna--i-hummer-limousine/" target="_blank" rel="noopener">Expressen <i data-ic="external"></i></a>
+          <a href="http://www.thelocal.se/20150125/worlds-first-limousine-snowplough-for-hire" target="_blank" rel="noopener">The Local <i data-ic="external"></i></a>
+          <a href="http://landracing.se/varldens-forsta-hummer-h2-limousin-med-snoplog/" target="_blank" rel="noopener">Landracing <i data-ic="external"></i></a>
+          <a href="http://www.upi.com/Odd_News/2015/01/26/Swedish-company-plows-snow-with-Hummer-limousine/7491422294457/" target="_blank" rel="noopener">UPI <i data-ic="external"></i></a>
+        </div>
+      </article>
+    </div>
+
+    <div class="sponsors reveal">
+      <div class="lbl">Sponsorer &amp; samarbeten</div>
+      <div class="sponsor-list">
+        <a href="http://www.hilltip.com" target="_blank" rel="noopener">hilltip.com</a>
+        <a href="http://www.pitchers.se" target="_blank" rel="noopener">pitchers.se</a>
+        <a href="http://www.multus.se" target="_blank" rel="noopener">multus.se</a>
+        <a href="http://www.torebodagummi.se" target="_blank" rel="noopener">torebodagummi.se</a>
+        <a href="http://www.traktorrace.se" target="_blank" rel="noopener">traktorrace.se</a>
+        <a href="http://www.hagaalltjanst.se" target="_blank" rel="noopener">hagaalltjanst.se</a>
+        <a href="http://www.hyramig.se" target="_blank" rel="noopener">hyramig.se</a>
+        <a href="http://www.hagaland.se" target="_blank" rel="noopener">hagaland.se</a>
+        <a href="http://www.skaraborgsbargning.se" target="_blank" rel="noopener">skaraborgsbargning.se</a>
+        <a href="http://www.anderssonsstad.se" target="_blank" rel="noopener">anderssonsstad.se</a>
+        <a href="http://hagalimo.se" target="_blank" rel="noopener">hagalimo.se</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────  BOOKING  ───────────────────── -->
+<section class="section alt" id="boka" data-screen-label="Boka">
+  <div class="wrap book-grid">
+    <div class="book-aside reveal">
+      <span class="eyebrow">Boka limo</span>
+      <h2 class="h2" style="margin-top:16px">Skicka er förfrågan</h2>
+      <p class="lead">Berätta kort om tillfället så återkommer vi med förslag på fordon och upplägg. Snabbt och smidigt.</p>
+      <div class="book-points">
+        <div class="pt"><span class="ic"><i data-ic="file-text"></i></span><div><h4>1 · Skicka förfrågan</h4><p>Fyll i formuläret med datum, tillfälle och sällskap.</p></div></div>
+        <div class="pt"><span class="ic"><i data-ic="clock"></i></span><div><h4>2 · Vi återkommer</h4><p>Vi hör av oss med förslag och pris för just ert ändamål.</p></div></div>
+        <div class="pt"><span class="ic"><i data-ic="crown"></i></span><div><h4>3 · Klart att rulla</h4><p>Allt bokat — luta er tillbaka och njut av resan.</p></div></div>
+      </div>
+      <div class="book-direct">
+        <a href="tel:+46704245693" class="bd"><i data-ic="phone"></i> 070-42 45 693</a>
+        <a href="mailto:bokalimo@limokungen.se" class="bd"><i data-ic="mail"></i> bokalimo@limokungen.se</a>
+      </div>
+    </div>
+
+    <div class="reveal" data-d="1">
+      <form class="form" id="bookForm" novalidate>
+        <div class="form-row">
+          <div class="field"><label>Namn <span class="req">*</span></label><input type="text" name="namn" placeholder="För- och efternamn" required></div>
+          <div class="field"><label>Telefon <span class="req">*</span></label><input type="tel" name="tel" placeholder="07X-XXX XX XX" required></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>E-post <span class="req">*</span></label><input type="email" name="epost" placeholder="namn@exempel.se" required></div>
+          <div class="field"><label>Datum</label><input type="date" name="datum"></div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Tillfälle</label>
+            <select name="tillfalle">
+              <option value="">Välj tillfälle</option>
+              <option>Bröllop</option><option>Fest</option><option>Studentflak</option>
+              <option>Partybuss</option><option>Företagsevent</option><option>Annat</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Fordon</label>
+            <select name="fordon">
+              <option value="">Vet ej — rekommendera gärna</option>
+              <option>Hummer H2 (vit)</option><option>Hummer H2 (röd)</option>
+              <option>Ford F-650 Megastretch</option><option>Cadillac DeVille</option>
+              <option>Bentley Continental GT</option><option>Partybuss</option><option>Studentflak</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Antal personer</label><input type="number" name="antal" min="1" placeholder="t.ex. 8"></div>
+          <div class="field"><label>Upphämtning</label><input type="text" name="upp" placeholder="Ort / adress"></div>
+        </div>
+        <div class="field full"><label>Destination</label><input type="text" name="dest" placeholder="Vart är ni på väg?"></div>
+        <div class="field full"><label>Meddelande</label><textarea name="meddelande" placeholder="Berätta gärna mer om ert ändamål."></textarea></div>
+        <div class="submit">
+          <button type="submit" class="btn btn-primary">Skicka förfrågan <i data-ic="arrow-right"></i></button>
+          <span class="note">Vi behandlar er förfrågan så snart vi kan. Inga uppgifter delas vidare.</span>
+        </div>
+      </form>
+      <div class="form-ok" id="formOk">
+        <div class="ico"><i data-ic="check"></i></div>
+        <h3 class="h3">Tack för er förfrågan</h3>
+        <p>Vi har tagit emot er förfrågan och återkommer så snart vi kan. Vi ses på vägen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────  CONTACT  ───────────────────── -->
+<section class="section" id="kontakt" data-screen-label="Kontakt">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <span class="eyebrow">Kontakt</span>
+      <h2 class="h2" style="margin:16px 0 0">Hör av er</h2>
+      <p class="lead" style="margin-top:18px">Du är varmt välkommen att kontakta oss om du har frågor eller vill boka. Vi hjälper dig vart du än är i Sverige med omnejd.</p>
+      <div class="contact-cards">
+        <a class="ccard" href="tel:+46704245693"><span class="ci"><i data-ic="phone"></i></span><span class="ct"><span class="cl">Telefon</span><span class="cv">070-42 45 693</span></span></a>
+        <a class="ccard" href="mailto:bokalimo@limokungen.se"><span class="ci"><i data-ic="mail"></i></span><span class="ct"><span class="cl">E-post</span><span class="cv">bokalimo@limokungen.se</span></span></a>
+        <a class="ccard" href="http://facebook.com/LimoKungen" target="_blank" rel="noopener"><span class="ci"><i data-ic="facebook"></i></span><span class="ct"><span class="cl">Facebook</span><span class="cv">facebook.com/LimoKungen</span></span></a>
+        <a class="ccard" href="http://hagalimo.se" target="_blank" rel="noopener"><span class="ci"><i data-ic="external"></i></span><span class="ct"><span class="cl">Webb</span><span class="cv">hagalimo.se</span></span></a>
+      </div>
+    </div>
+    <div class="reveal map-wrap" data-d="1">
+      <iframe title="Karta" src="https://maps.google.com/maps?q=58.008098,13.095703&z=7&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────  FOOTER  ────────────────────── -->
+<footer class="footer" data-screen-label="Footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <i data-ic="crown" class="crown"></i>
+          <span class="brand-tx"><span class="brand-name">LimoKungen</span><span class="brand-sub" style="color:var(--od-mut)">HagaLimo</span></span>
+        </a>
+        <p>Limousine, partybuss och studentflak — bokning i hela Sverige med omnejd. Snabbt, smidigt och seriöst.</p>
+        <a href="#boka" class="btn btn-primary">Boka limo <i data-ic="arrow-right"></i></a>
+      </div>
+      <div class="foot-col">
+        <h5>Sidor</h5>
+        <a href="#limousiner">Limousiner</a>
+        <a href="#galleri">Galleri</a>
+        <a href="#video">Film</a>
+        <a href="#omrade">Områden</a>
+        <a href="#om-oss">Om oss</a>
+        <a href="#boka">Boka limo</a>
+      </div>
+      <div class="foot-col">
+        <h5>Tjänster</h5>
+        <a href="#boka">Bröllop</a>
+        <a href="#boka">Fest</a>
+        <a href="#boka">Studentflak</a>
+        <a href="#boka">Partybuss</a>
+        <a href="#boka">Företagsevent</a>
+      </div>
+      <div class="foot-col">
+        <h5>Kontakt</h5>
+        <a class="ln" href="tel:+46704245693"><i data-ic="phone"></i> 070-42 45 693</a>
+        <a class="ln" href="mailto:bokalimo@limokungen.se"><i data-ic="mail"></i> bokalimo@limokungen.se</a>
+        <a class="ln" href="http://facebook.com/LimoKungen" target="_blank" rel="noopener"><i data-ic="facebook"></i> Facebook</a>
+        <p class="ln"><i data-ic="crown"></i> Håkan Andersson</p>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© <span id="yr"></span> LimoKungen.se &amp; HagaLimo. Alla rättigheter förbehållna.</p>
+      <div class="social">
+        <a href="http://facebook.com/LimoKungen" target="_blank" rel="noopener" aria-label="Facebook"><i data-ic="facebook"></i></a>
+        <a href="mailto:bokalimo@limokungen.se" aria-label="E-post"><i data-ic="mail"></i></a>
+        <a href="tel:+46704245693" aria-label="Telefon"><i data-ic="phone"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─────────────────────────  LIGHTBOX  ──────────────────── -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lb-close" id="lbClose" aria-label="Stäng"><i data-ic="x"></i></button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Föregående"><i data-ic="chevron-left"></i></button>
+  <img id="lbImg" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Nästa"><i data-ic="chevron-right"></i></button>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+/* LimoKungen — real image library (pulled from limokungen.se).
+   Two CDN folders: /onewebmedia/ (fleet & event JPGs) and /Galleri/ (hi-res gallery). */
+(function(){
+  var ONE = "https://impro.usercontent.one/appid/oneComWsb/domain/limokungen.se/media/limokungen.se/onewebmedia/";
+  var GAL = "https://impro.usercontent.one/appid/oneComWsb/domain/limokungen.se/media/limokungen.se/Galleri/";
+  function o(name){ return ONE + name; }
+  function g(file, q){ return GAL + file + "?" + q; }
+
+  // ── Gallery (hi-res, with original etag/resize query strings) ──────────
+  var GALLERY = [
+    {src:g("a.jpeg","etag=%22UEz3JXjFh9T6Pzd6X1vI18Fkq2Q%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Samling av några limousiner"},
+    {src:g("image%20%2811%29.jpeg","etag=%22a8XmB%2FP9zGn2i9qOEMoVmxJuiSI%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Chryslerlimousine"},
+    {src:g("image%20%2818%29.jpeg","etag=%22t9yUpyFFxYJdCpqlSCPSl%2F266ms%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Bröllop"},
+    {src:g("image%20%2823%29.jpeg","etag=%2230oWOGoUaTb8THtmENkpOPdeiWY%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Often copied, never bested"},
+    {src:g("DSC_0279.png","etag=%22PWq1YbdlFKdVKgBzfE13MruaFeo%22&sourceContentType=image%2Fpng&quality=85"), cap:"Lincoln Town Car Super Stretch"},
+    {src:g("image%20%2814%29.jpeg","etag=%22EFfcLfr9GHUbSB5LmP%2BSH6bmrz8%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Neonrör under limon och massiva högtalare på taket"},
+    {src:g("image%20%2824%29.jpeg","etag=%22%2BtiuTjC1%2BYKsoOu8dfB%2B0lPAIJQ%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Neonrör under limon"},
+    {src:g("image%20%2816%29.jpeg","etag=%22TARw2BohVyiNCLDuXvwJchiYsWc%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2000,2667&quality=85"), cap:"Bröllop"},
+    {src:g("image.jpeg","etag=%22TnzLS7OZIyZKfmRilAU4LV43RZ8%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Hummer H2"},
+    {src:g("image%20%287%29.jpeg","etag=%22Goo0i%2BuVvu7H1JIT9dd8OMoURGk%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Studentbal"},
+    {src:g("image%20%288%29.jpeg","etag=%2280AlwD7CalzkxTSB0rXv01qjsOo%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Vinterkörning"},
+    {src:g("image%20%283%29.jpeg","etag=%22vAyOyjj1xni7OKsdUuf%2BU6QrIQI%22&sourceContentType=image%2Fjpeg&quality=85"), cap:"Elvis åker limo"},
+    {src:g("j.png","etag=%22tkXgafGoWDpm9r9hIfJA8uhnwGQ%22&sourceContentType=image%2Fpng&quality=85"), cap:"Interiör — stjärnhimmel"},
+    {src:g("DSC_0258.png","etag=%22M7GAgdO3elvvMGbSEBWHC5ikKxM%22&sourceContentType=image%2Fpng&ignoreAspectRatio&resize=1000,662&quality=85"), cap:"Interiör — champagne"},
+    {src:g("DSC_0265.png","etag=%22nYUvyYw0jXJ7iwtJF5Nyuhu%2FnY8%22&sourceContentType=image%2Fpng&quality=85"), cap:"Interiör — barskåp"},
+    {src:g("DSC_0481.JPG","etag=%22GcM%2F4WwU%2Bv%2BgAwnpXJIFlizDP%2BU%22&sourceContentType=image%2Fjpeg&quality=85"), cap:"Interiör — LED-tak"},
+    {src:g("l.JPG","etag=%223VJmIoHXhX6ywcK6%2FCuX2%2BJJBMA%22&sourceContentType=image%2Fjpeg&quality=85"), cap:"Interiör — loungekänsla"},
+    {src:g("mn.JPG","etag=%22gLeu%2BSPatrcnGU7A4cstHHdCGNU%22&sourceContentType=image%2Fjpeg&quality=85"), cap:"Interiör — läderstolar"},
+    {src:g("q.JPG","etag=%22TFQTEkLKmKzYg0bUzggnDbyXJmU%22&sourceContentType=image%2Fjpeg&quality=85"), cap:"Interiör — kristall"},
+    {src:g("image%20%286%29.jpeg","etag=%22iNY%2FvhCCSx1%2BvXw1iptiMF3RVZg%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1876&quality=85"), cap:"Rosa limousine"},
+    {src:g("image%20%2827%29.jpeg","etag=%22aDiemaUKMfTcDKIHA7IxZU2KYKY%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Hela flottan"},
+    {src:g("image%20%284%29.jpeg","etag=%22QRKBnhJ%2BKtOlGOthatD9dQTM40o%22&sourceContentType=image%2Fjpeg&ignoreAspectRatio&resize=2500,1875&quality=85"), cap:"Sällskap"}
+  ];
+
+  // ── Per-vehicle carousels (filenames verified against limokungen.se/limousiner) ──
+  var VEHICLES = {
+    hummerVit: [o("IMG_3279.JPG"), o("IMG_7172.jpg"), o("IMG_0112.jpg"), o("IMG_0093.jpg"), o("IMG_0123.jpg"), GALLERY[8].src],
+    ford:      [o("IMG_0179.jpg"), o("IMG_9834.jpg"), o("IMG_0693.JPG"), o("IMG_9841.jpg"), o("IMG_0184.jpg")],
+    cadillac:  [],   // site gallery exposes no image URLs — awaiting photos
+    hummerRod: [o("IMG_2627.jpg"), o("IMG_3962.JPG"), o("IMG_8305.JPG")],
+    bentley:   [],   // site gallery exposes no image URLs — awaiting photos
+    partybuss: [o("IMG_4829.jpg"), o("IMG_2986.jpg"), o("dji_0247.JPG"), o("IMG_2449.jpg"), o("IMG_4986.jpg"), o("IMG_2929.jpg"), o("IMG_4823.jpg"), o("IMG_3300.jpg"), o("IMG_2925.jpg")],
+    studentflak:[o("87830817-skPNm.jpg"), GALLERY[9].src]
+  };
+
+  // ── Hero marquee rows (lighter onewebmedia + a few gallery) ────────────
+  var ROW_A = [
+    o("IMG_2627.jpg"), GALLERY[8].src, GALLERY[1].src, o("IMG_7172.jpg"),
+    GALLERY[4].src, o("IMG_0179.jpg"), GALLERY[19].src, GALLERY[3].src,
+    o("IMG_4500.jpg"), GALLERY[18].src
+  ];
+  var ROW_B = [
+    GALLERY[12].src, o("IMG_0093.jpg"), GALLERY[15].src, o("IMG_4823.jpg"),
+    GALLERY[5].src, o("IMG_9834.jpg"), GALLERY[16].src, o("IMG_2986.jpg"),
+    GALLERY[11].src, o("IMG_0123.jpg")
+  ];
+
+  window.LK = { ONE:ONE, GAL:GAL, GALLERY:GALLERY, VEHICLES:VEHICLES, ROWS:[ROW_A, ROW_B] };
+})();
+
+</script>
+<script>
+/* LimoKungen — interactions */
+(function(){
+  'use strict';
+  var LK = window.LK || {GALLERY:[],VEHICLES:{},ROWS:[]};
+
+  /* ── Icons (lucide, stroke) ─────────────────────────────── */
+  var ICONS = {
+    crown:'<path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/>',
+    'arrow-right':'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    play:'<polygon points="6 3 20 12 6 21 6 3"/>',
+    menu:'<line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/>',
+    x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    'chevron-left':'<path d="m15 18-6-6 6-6"/>',
+    'chevron-right':'<path d="m9 18 6-6-6-6"/>',
+    check:'<path d="M20 6 9 17l-5-5"/>',
+    external:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/>',
+    'file-text':'<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
+    clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+    facebook:'<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>',
+    phone:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>',
+    mail:'<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>'
+  };
+  function svg(name){
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+(ICONS[name]||'')+'</svg>';
+  }
+
+  /* Downscale impro resize=W,H URLs for lighter display thumbnails (lightbox keeps full res). */
+  function thumb(url, maxw){
+    var m = url.match(/resize=(\d+),(\d+)/);
+    if(!m) return url;
+    var w=+m[1], h=+m[2];
+    if(w<=maxw) return url;
+    var f=maxw/w;
+    return url.replace(/resize=\d+,\d+/, 'resize='+Math.round(w*f)+','+Math.round(h*f));
+  }
+  function paintIcons(root){
+    (root||document).querySelectorAll('[data-ic]').forEach(function(el){
+      if(el.dataset.icPainted) return;
+      el.innerHTML = svg(el.getAttribute('data-ic'));
+      el.style.display='inline-flex'; el.dataset.icPainted='1';
+    });
+  }
+  paintIcons();
+
+  var yr=document.getElementById('yr'); if(yr) yr.textContent=new Date().getFullYear();
+
+  /* ── Nav scroll state ───────────────────────────────────── */
+  var nav=document.getElementById('nav');
+  function onScroll(){ nav.classList.toggle('scrolled', window.scrollY>40); }
+  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+  /* ── Mobile menu ────────────────────────────────────────── */
+  var burger=document.getElementById('burger'), mm=document.getElementById('mobileMenu');
+  function closeMenu(){ mm.classList.remove('open'); document.body.style.overflow=''; }
+  if(burger) burger.addEventListener('click', function(){
+    var open=mm.classList.toggle('open'); document.body.style.overflow=open?'hidden':'';
+  });
+  if(mm) mm.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
+
+  /* ── Hero marquee ───────────────────────────────────────── */
+  (function(){
+    var host=document.getElementById('heroMarquee'); if(!host||!LK.ROWS) return;
+    LK.ROWS.forEach(function(row, ri){
+      var r=document.createElement('div'); r.className='mq-row'+(ri%2?' rev':'');
+      var track=document.createElement('div'); track.className='mq-track';
+      var seq=row.concat(row); // duplicate for seamless loop
+      seq.forEach(function(src){
+        var im=new Image(); im.src=thumb(src,1000); im.loading='eager'; im.decoding='async'; im.alt='';
+        track.appendChild(im);
+      });
+      r.appendChild(track); host.appendChild(r);
+    });
+  })();
+
+  /* ── Lightbox (array-aware) ─────────────────────────────── */
+  var lb=document.getElementById('lightbox'), lbImg=document.getElementById('lbImg'),
+      lbCap=document.getElementById('lbCap'), lbPrev=document.getElementById('lbPrev'), lbNext=document.getElementById('lbNext');
+  var items=[], idx=0;
+  function lbShow(i){
+    if(!items.length) return;
+    idx=(i+items.length)%items.length;
+    lbImg.src=items[idx].src; lbCap.textContent=items[idx].cap||'';
+    var multi=items.length>1;
+    lbPrev.style.display=multi?'':'none'; lbNext.style.display=multi?'':'none';
+  }
+  function lbOpen(arr, i){
+    items=arr.map(function(x){ return typeof x==='string'?{src:x,cap:''}:x; });
+    lbShow(i||0);
+    lb.classList.add('open'); lb.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+  }
+  function lbClose(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  window.lbOpen = lbOpen;
+  document.getElementById('lbClose').addEventListener('click', lbClose);
+  lbPrev.addEventListener('click', function(){ lbShow(idx-1); });
+  lbNext.addEventListener('click', function(){ lbShow(idx+1); });
+  lb.addEventListener('click', function(e){ if(e.target===lb) lbClose(); });
+  document.addEventListener('keydown', function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') lbClose();
+    if(e.key==='ArrowLeft') lbShow(idx-1);
+    if(e.key==='ArrowRight') lbShow(idx+1);
+  });
+  // standalone .lb images
+  document.querySelectorAll('img.lb').forEach(function(im){
+    im.style.cursor='zoom-in';
+    im.addEventListener('click', function(){ lbOpen([{src:im.src, cap:im.dataset.cap||im.alt||''}],0); });
+  });
+
+  /* ── Vehicle carousels ──────────────────────────────────── */
+  document.querySelectorAll('.carousel[data-set]').forEach(function(car){
+    var set=car.getAttribute('data-set');
+    var imgs=(LK.VEHICLES && LK.VEHICLES[set])||[];
+    if(!imgs.length){
+      car.classList.add('cempty');
+      car.style.cursor='default';
+      car.innerHTML='<div class="cempty-in"><span class="cei">'+svg('crown')+'</span><span class="cet">Bilder på förfrågan</span><span class="ces">Kontakta oss</span></div>';
+      return;
+    }
+    var card=car.closest('.card');
+    var title=card ? (card.querySelector('h3')||{}).textContent||'' : '';
+
+    var slides=document.createElement('div'); slides.className='cslides';
+    imgs.forEach(function(src,i){
+      var im=new Image(); im.src=thumb(src,1200); im.alt=title+' bild '+(i+1);
+      im.loading = i===0 ? 'eager' : 'lazy'; im.decoding='async';
+      slides.appendChild(im);
+    });
+    car.appendChild(slides);
+
+    var ci=0, n=imgs.length;
+    function go(i){ ci=(i+n)%n; slides.style.transform='translateX('+(-ci*100)+'%)'; updateDots(); }
+
+    var dotsWrap;
+    if(n>1){
+      var prev=document.createElement('button'); prev.className='cbtn cprev'; prev.setAttribute('aria-label','Föregående'); prev.innerHTML=svg('chevron-left');
+      var next=document.createElement('button'); next.className='cbtn cnext'; next.setAttribute('aria-label','Nästa'); next.innerHTML=svg('chevron-right');
+      prev.addEventListener('click', function(e){ e.stopPropagation(); stop(); go(ci-1); });
+      next.addEventListener('click', function(e){ e.stopPropagation(); stop(); go(ci+1); });
+      car.appendChild(prev); car.appendChild(next);
+      dotsWrap=document.createElement('div'); dotsWrap.className='cdots';
+      imgs.forEach(function(_,i){ var d=document.createElement('button'); d.setAttribute('aria-label','Bild '+(i+1));
+        d.addEventListener('click', function(e){ e.stopPropagation(); stop(); go(i); }); dotsWrap.appendChild(d); });
+      car.appendChild(dotsWrap);
+      var count=document.createElement('span'); count.className='ccount'; car.appendChild(count);
+      car._count=count;
+    }
+    function updateDots(){
+      if(dotsWrap) [].forEach.call(dotsWrap.children,function(d,i){ d.classList.toggle('on', i===ci); });
+      if(car._count) car._count.textContent=(ci+1)+' / '+n;
+    }
+
+    // open lightbox on image click
+    car.addEventListener('click', function(){ lbOpen(imgs.map(function(s){return {src:s,cap:title};}), ci); });
+
+    // touch swipe
+    var sx=0,dx=0,drag=false;
+    car.addEventListener('touchstart', function(e){ sx=e.touches[0].clientX; drag=true; stop(); }, {passive:true});
+    car.addEventListener('touchmove', function(e){ if(drag) dx=e.touches[0].clientX-sx; }, {passive:true});
+    car.addEventListener('touchend', function(){ if(drag&&Math.abs(dx)>40){ go(dx<0?ci+1:ci-1);} drag=false; dx=0; });
+
+    // autoplay
+    var timer=null;
+    function start(){ if(n>1 && !timer) timer=setInterval(function(){ go(ci+1); }, 5200); }
+    function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+    car.addEventListener('mouseenter', stop); car.addEventListener('mouseleave', start);
+    go(0); start();
+  });
+
+  /* ── Gallery grid ───────────────────────────────────────── */
+  (function(){
+    var grid=document.getElementById('galleryGrid'); if(!grid||!LK.GALLERY) return;
+    LK.GALLERY.forEach(function(item,i){
+      var fig=document.createElement('figure'); fig.className='gitem';
+      var im=new Image(); im.src=thumb(item.src,820); im.alt=item.cap||''; im.loading='lazy'; im.decoding='async';
+      fig.appendChild(im);
+      if(item.cap){ var cap=document.createElement('figcaption'); cap.textContent=item.cap; fig.appendChild(cap); }
+      fig.addEventListener('click', function(){ lbOpen(LK.GALLERY, i); });
+      grid.appendChild(fig);
+    });
+  })();
+
+  /* ── Reveal on scroll ───────────────────────────────────── */
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.12, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* ── Video lazy-load ────────────────────────────────────── */
+  var vf=document.getElementById('videoFrame'), vp=document.getElementById('videoPoster');
+  if(vf && vp){
+    vf.addEventListener('click', function(e){
+      if(e.target.closest('.video-fallback')) return; // let the fallback link work
+      if(vf.dataset.loaded) return;
+      var f=document.createElement('iframe');
+      f.src=vf.dataset.yt;
+      f.allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share';
+      f.allowFullscreen=true; f.title='LimoKungen film';
+      vf.appendChild(f); vf.dataset.loaded='1'; vf.classList.add('playing');
+      vp.style.display='none';
+      var pl=vf.querySelector('.video-play'); if(pl) pl.style.display='none';
+    });
+  }
+
+  /* ── Booking form ───────────────────────────────────────── */
+  var form=document.getElementById('bookForm'), ok=document.getElementById('formOk');
+  if(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var req=form.querySelectorAll('[required]'), valid=true, first=null;
+      req.forEach(function(f){
+        if(!f.value.trim()){ valid=false; f.style.borderColor='#d9534f'; f.style.boxShadow='0 0 0 3px rgba(217,83,79,.12)'; if(!first) first=f; }
+        else { f.style.borderColor=''; f.style.boxShadow=''; }
+      });
+      if(!valid){ if(first) first.focus(); return; }
+      form.style.display='none'; ok.classList.add('show');
+    });
+    form.querySelectorAll('[required]').forEach(function(f){
+      f.addEventListener('input', function(){ f.style.borderColor=''; f.style.boxShadow=''; });
+    });
+  }
+})();
+
+</script>
+
+</body>
+</html>
